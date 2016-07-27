@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy": "NODE_ENV=production npm run build && ./scripts/deploy.sh",
+    "deploy": "NODE_ENV=production npm run build && ./tools/deploy.sh",
     "build": "webpack --config tools/webpack.production.config.js",
     "watch": "webpack -w --config tools/webpack.development.config.js"
   },
