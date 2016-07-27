@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var resolve = path.resolve;
 
@@ -36,10 +38,24 @@ module.exports = {
     ]
   },
 
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: resolve('templates', 'index.html'),
+      inject: 'body',
+    }),
+
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+
   devtool: 'source-map',
 
   output: {
-    filename: '[name].js',
+    filename: '[name]-[hash].js',
     path: resolve('build', 'public', 'assets'),
+  },
+
+  devServer: {
+    hot: true,
   },
 };

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "webpack-dev-server --config tools/webpack.development.config.js --inline",
     "deploy": "NODE_ENV=production npm run build && ./tools/deploy.sh",
     "build": "webpack --config tools/webpack.production.config.js",
     "watch": "webpack -w --config tools/webpack.development.config.js"
@@ -18,10 +19,12 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "css-loader": "^0.23.1",
+    "html-webpack-plugin": "^2.22.0",
     "node-sass": "^3.8.0",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1",
     "webpack-merge": "^0.14.1"
   },
   "dependencies": {
