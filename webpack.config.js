@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    main: './src/main.jsx',
+    index: './src/index.jsx',
   },
 
   resolve: {
@@ -20,6 +20,8 @@ module.exports = {
       /aws\-sdk/,
     ]
   },
+
+  devtool: 'source-map',
 
   output: {
     filename: '[name].js',

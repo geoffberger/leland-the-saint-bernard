@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router'
+import { Link, withRouter } from 'react-router'
 import capitalize from 'lodash/capitalize';
 import Slider from 'react-slick';
 import 'aws-sdk/dist/aws-sdk';
@@ -23,7 +23,7 @@ const linkStyles = {
   color: 'brown'
 };
 
-export default class AlbumListComponent extends Component {
+class AlbumList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,6 +41,15 @@ export default class AlbumListComponent extends Component {
     this.updateAlbum(this.props.params.loc);
   }
 
+  getAlbumFromPrefix(prefix) {
+    return prefix.match(/\/([^]+)\/$/)
+  }
+
+  buildURLFromPrefix(prefix) {
+    const parts = this.getAlbumFromPrefix(prefix);
+    return `/location/${this.props.params.loc}/album/${parts[1]}`
+  }
+
   updateAlbum(loc) {
     var s3 = new aws.S3();
 
@@ -50,9 +59,12 @@ export default class AlbumListComponent extends Component {
       Prefix: `${loc}/`,
     }, (err, data) => {
       if (err) return console.error(err);
-      this.setState({
-        albums: data.CommonPrefixes
-      });
+      const albums = data.CommonPrefixes;
+      this.setState({ albums });
+
+      if (albums.length) {
+        this.props.router.push(this.buildURLFromPrefix(albums[0].Prefix));
+      }
     });
   }
 
@@ -73,7 +85,7 @@ export default class AlbumListComponent extends Component {
         <div style={{ marginLeft: '25px', width: '90%' }}>
           <Slider {...settings}>
             {this.state.albums.map((album, i) => {
-              const parts = album.Prefix.match(/\/([^]+)\/$/)
+              const parts = this.getAlbumFromPrefix(album.Prefix);
               let name = '';
 
               if (parts && (name = parts[1])) {
@@ -84,7 +96,7 @@ export default class AlbumListComponent extends Component {
 
                 return (
                   <span key={i} style={itemStyle}>
-                    <Link to={{ pathname: `/location/${this.props.params.loc}/album/${name}` }} activeStyle={{ color: 'black' }} style={linkStyles}>{readableName}</Link>
+                    <Link to={{ pathname: this.buildURLFromPrefix(album.Prefix) }} activeStyle={{ color: 'black' }} style={linkStyles}>{readableName}</Link>
                   </span>
                 );
               }
@@ -96,3 +108,5 @@ export default class AlbumListComponent extends Component {
     );
   }
 }
+
+export default withRouter(AlbumList);
