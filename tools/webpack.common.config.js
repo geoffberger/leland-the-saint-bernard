@@ -1,6 +1,9 @@
+var path = require('path');
+var resolve = path.resolve;
+
 module.exports = {
   entry: {
-    index: './src/index.jsx',
+    index: resolve('src', 'index.jsx'),
   },
 
   resolve: {
@@ -25,6 +28,6 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: 'build/public/assets',
+    path: resolve('build', 'public', 'assets'),
   }
 };
