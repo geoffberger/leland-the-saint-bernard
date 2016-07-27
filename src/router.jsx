@@ -3,9 +3,9 @@ import { Router, Route, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
-import Layout from './components/Layout';
-import AlbumList from './components/AlbumList';
-import ImageList from './components/ImageList';
+import Layout from './components/Layout/Layout';
+import AlbumList from './components/AlbumList/AlbumList';
+import ImageList from './components/ImageList/ImageList';
 
 export default () => {
   return (

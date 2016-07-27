@@ -1,0 +1,22 @@
+.list {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.item {
+  float: left;
+  margin: 0 12px 12px 0;
+  padding: 6px;
+  border: 1px solid #ccc;
+}
+
+.link {
+  text-decoration: none;
+  color: brown;
+}
+
+.active {
+  color: black;
+}

@@ -1,0 +1,24 @@
+.page-title {
+  color: brown;
+  text-decoration: none;
+}
+
+.list {
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+}
+
+.item {
+  float: left;
+  margin-right: 12px;
+}
+
+.link {
+  text-decoration: none;
+  color: brown;
+}
+
+.active {
+  color: black;
+}

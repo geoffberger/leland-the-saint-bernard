@@ -16,7 +16,19 @@ module.exports = {
         test: /\.jsx?$/,
         loaders: ['babel?cacheDirectory'],
         exclude: /node_modules/,
-      }
+      },
+
+      {
+        test: /\.scss$/,
+        loaders: [
+          'style',
+          `css?${JSON.stringify({
+            modules: true,
+            importLoaders: true,
+          })}`,
+          'sass-loader',
+        ],
+      },
     ],
 
     noParse: [
@@ -29,5 +41,5 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: resolve('build', 'public', 'assets'),
-  }
+  },
 };

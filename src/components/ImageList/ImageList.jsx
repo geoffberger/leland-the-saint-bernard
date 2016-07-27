@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import CSSModules from 'react-css-modules';
 import Masonry from 'react-masonry-component';
 import 'aws-sdk/dist/aws-sdk';
 const aws = window.AWS;
 
-import config from '../config'
+import config from '../../config'
+import styles from './ImageList.scss';
 
-export default class ImageListComponent extends Component {
+
+class ImageList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,33 +51,14 @@ export default class ImageListComponent extends Component {
   }
 
   render() {
-    const listStyles = {
-      listStyle: 'none',
-      overflow: 'hidden',
-      padding: '0',
-    };
-
-    const itemStyles = {
-      width: '32%',
-      float: 'left',
-      boxSizing: 'border-box',
-      padding: '12px',
-      border: '1px solid #ccc',
-      margin: '0 1% 1% 0',
-    };
-
-    const imageStyles = {
-      width: '100%',
-    };
-
     const prefix = this.getPrefix(this.props.params);
 
     const els = this.state.images.map((image, i) => {
       if (prefix !== image.Key) {
         const src = `${config.AWS.s3Domain}/${this.state.name}/${image.Key}`;
         return (
-          <li key={i} style={itemStyles}>
-            <img style={imageStyles} title={image.Key} alt={image.Key} src={src} />
+          <li key={i} styleName='item'>
+            <img styleName='image' title={image.Key} alt={image.Key} src={src} />
           </li>
         )
       }
@@ -82,10 +66,12 @@ export default class ImageListComponent extends Component {
 
     return (
       <Masonry
-          style={listStyles}
+          className={styles.list}
           elementType={'ul'}>
         {els}
       </Masonry>
     );
   }
 }
+
+export default CSSModules(ImageList, styles);

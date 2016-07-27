@@ -1,27 +1,13 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router'
+import CSSModules from 'react-css-modules';
 import capitalize from 'lodash/capitalize';
 import Slider from 'react-slick';
 import 'aws-sdk/dist/aws-sdk';
 const aws = window.AWS;
 
-import config from '../config'
-
-const listStyle = {
-  listStyle: 'none',
-  margin: '12px 0',
-  padding: '0',
-  overflow: 'hidden',
-};
-
-const itemStyle = {
-  marginRight: '12px',
-};
-
-const linkStyles = {
-  textDecoration: 'none',
-  color: 'brown'
-};
+import styles from './AlbumList.scss';
+import config from '../../config';
 
 class AlbumList extends Component {
   constructor(props) {
@@ -69,44 +55,31 @@ class AlbumList extends Component {
   }
 
   render() {
-    var settings = {
-      arrows: true,
-      dots: false,
-      infinite: false,
-      speed: 500,
-      variableWidth: true,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      mobileFirst: true,
-    };
-
     return (
       <div>
-        <div style={{ marginLeft: '25px', width: '90%' }}>
-          <Slider {...settings}>
-            {this.state.albums.map((album, i) => {
-              const parts = this.getAlbumFromPrefix(album.Prefix);
-              let name = '';
+        <ul styleName='list'>
+          {this.state.albums.map((album, i) => {
+            const parts = this.getAlbumFromPrefix(album.Prefix);
+            let name = '';
 
-              if (parts && (name = parts[1])) {
-                const readableName = name
-                  .split('-')
-                  .map(capitalize)
-                  .join(' ');
+            if (parts && (name = parts[1])) {
+              const readableName = name
+                .split('-')
+                .map(capitalize)
+                .join(' ');
 
-                return (
-                  <span key={i} style={itemStyle}>
-                    <Link to={{ pathname: this.buildURLFromPrefix(album.Prefix) }} activeStyle={{ color: 'black' }} style={linkStyles}>{readableName}</Link>
-                  </span>
-                );
-              }
-            })}
-          </Slider>
-        </div>
+              return (
+                <li key={i} styleName='item'>
+                  <Link to={{ pathname: this.buildURLFromPrefix(album.Prefix) }} activeClassName={styles.active} className={styles.link}>{readableName}</Link>
+                </li>
+              );
+            }
+          })}
+        </ul>
         {this.props.children}
       </div>
     );
   }
 }
 
-export default withRouter(AlbumList);
+export default withRouter(CSSModules(AlbumList, styles));
