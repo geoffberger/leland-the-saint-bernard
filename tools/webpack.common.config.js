@@ -30,6 +30,12 @@ module.exports = {
           })}`,
           'sass-loader',
         ],
+        exclude: /node_modules/,
+      },
+
+      {
+        test: /\.json$/,
+        loader: 'json',
       },
     ],
 
